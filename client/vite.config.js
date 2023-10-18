@@ -11,6 +11,6 @@ export default defineConfig({
       }
     }
   },
+  base: '/real-estate/',
   plugins: [react()],
-  base: '/real-estate/'
 })
