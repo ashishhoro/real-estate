@@ -104,7 +104,12 @@ const CreateListing = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            if (formData.imageUrls.length < 1) return setError('You must upload at least one image');
+            // if (formData.imageUrls.length < 1) return setError('You must upload at least one image');
+            if (formData.imageUrls.length < 1)
+                return formData.imageUrls.push('https://graphicsfamily.com/wp-content/uploads/edd/2020/04/house-apartment-logo-green-Transparent-1.png')
+                // return formData.imageUrls.push(logoImage);
+                
+
             if (+formData.regularPrice < formData.discountedPrice) return setError('Discounted Price is lower than Regular Price');
 
             setLoading(true);
@@ -204,7 +209,7 @@ const CreateListing = () => {
                         </div>
                         <div className='flex items-center gap-2'>
                             <input className='p-3 border border-gray-300 rounded-lg'
-                                type="number" id='regularPrice' min='50' max='10000000' required
+                                type="number" id='regularPrice' min='50' max='1000000000' required
                                 onChange={handleChange}
                                 value={formData.regularPrice}
                             />
@@ -218,7 +223,7 @@ const CreateListing = () => {
                             formData.offer && (
                                 <div className='flex items-center gap-2'>
                                     <input className='p-3 border border-gray-300 rounded-lg'
-                                        type="number" id='discountedPrice' min='0' max='10000000' required
+                                        type="number" id='discountedPrice' min='0' max='1000000000' required
                                         onChange={handleChange}
                                         value={formData.discountedPrice} />
                                     <div className='flex flex-col items-center'>

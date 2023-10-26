@@ -31,21 +31,25 @@ const Profile = () => {
     const fileName = new Date().getTime() + file.name;
     const storageRef = ref(storage, fileName);
     const uploadTask = uploadBytesResumable(storageRef, file);
-
-    uploadTask.on('state_changed',
-      (snapshot) => {
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        setFilePercent(Math.round(progress))
-      },
-      (error) => {
-        setFileUploadError(true);
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref)
-          .then((downloadURL) => setFormData({ ...formData, avatar: downloadURL })
-          );
-      }
-    );
+    if (file.size < 2097153) {
+      setFileUploadError(false);
+      uploadTask.on('state_changed',
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          setFilePercent(Math.round(progress))
+        },
+        (error) => {
+          setFileUploadError(true);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref)
+            .then((downloadURL) => setFormData({ ...formData, avatar: downloadURL })
+            );
+        }
+      )
+    }else{
+      setFileUploadError(true);
+    }
   };
 
   const handleChange = (e) => {
@@ -116,7 +120,6 @@ const Profile = () => {
       setUserListings(data);
     } catch (error) {
       setShowListingsError(true);
-
     }
   }
 
@@ -190,14 +193,14 @@ const Profile = () => {
                   className='h-16 w-16 object-contain' />
               </Link>
               <Link to={`/listing/${listing._id}`}
-                className='text-slate=700 font-semibold flex-1 hover:underline truncate'
+                className='text-slate=700 font-semibold flex-1 truncate hover:underline'
               >
-                <p className=''>{listing.name}</p>
+                <p className='truncate'>{listing.name}</p>
               </Link>
               <div className='flex flex-col items-center'>
-                <button onClick={() => handleListingDelete(listing._id)} className='text-red-700 uppercase'>Delete</button>
+                <button onClick={() => handleListingDelete(listing._id)} className='text-red-700 uppercase hover:underline'>Delete</button>
                 <Link to={`/update-listing/${listing._id}`}>
-                  <button onClick={handleListingEdit} className='text-green-700 uppercase'>Edit</button>
+                  <button onClick={handleListingEdit} className='text-green-700 uppercase hover:underline'>Edit</button>
                 </Link>
               </div>
             </div>

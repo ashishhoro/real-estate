@@ -17,7 +17,7 @@ const Listing = () => {
   const [copied, setCopied] = useState(false);
   const [contact, setContact] = useState(false);
   const { currentUser } = useSelector(state => state.user);
-
+  
   useEffect(() => {
     const fetchListing = async () => {
       try {
@@ -50,7 +50,10 @@ const Listing = () => {
             {listing.imageUrls.map((url) => (
               <SwiperSlide key={url}>
                 <div className="h-[550px]"
-                  style={{ background: `url(${url}) center no-repeat`, backgroundSize: 'cover' }}
+                  style={{
+                    background: `url(${url}) center no-repeat`,
+                    backgroundSize: 'cover'
+                  }}
                 ></div>
               </SwiperSlide>
             ))}
@@ -75,7 +78,7 @@ const Listing = () => {
             <p className='text-2xl font-semibold'>
               {listing.name} - ${' '}
               {listing.offer ?
-                listing.discountedPrice.toLocaleString('en-US') : listing.regularPrice.toLocaleString('en-US')
+                listing.discountedPrice.toLocaleString('en-us') : listing.regularPrice.toLocaleString('en-us')
               }
               {listing.type === 'rent' && ' / month'}
             </p>
